@@ -49,12 +49,14 @@ section.visible{display:block;}
 .vendido-btn{display:flex;align-items:center;justify-content:center;width:100%;background:#e8ddd4;color:#aaa;border:none;border-radius:10px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:not-allowed;}
 .rec-form{background:#fff;border:2px solid #f0e8e0;border-radius:20px;padding:1.75rem;}
 .field{margin-bottom:1.25rem;}
-.field label{display:block;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#999;margin-bottom:8px;}
+.field label{display:block;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#999;margin-bottom:6px;}
+.field-hint{font-size:11px;color:#c0a0b0;margin-bottom:8px;font-style:italic;}
 .measures-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .m-wrap{display:flex;flex-direction:column;gap:4px;}
 .m-wrap span{font-size:11px;color:#bbb;}
 .m-wrap input{width:100%;padding:10px 12px;border:2px solid #e8ddd4;border-radius:10px;font-family:'Nunito Sans',sans-serif;font-size:14px;background:#f9f6f2;color:#1a1a1a;outline:none;}
 .m-wrap input:focus{border-color:#1a1a1a;}
+.m-wrap input::placeholder{font-size:12px;color:#ccc;}
 .chips{display:flex;flex-wrap:wrap;gap:8px;}
 .chip{background:#f9f6f2;border:2px solid #e8ddd4;border-radius:50px;padding:7px 16px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;color:#999;transition:all 0.2s;}
 .chip.sel{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
@@ -93,16 +95,17 @@ section.visible{display:block;}
 <section id="recomienda">
   <div class="section-header">
     <h2>¿Qué me queda?</h2>
-    <p>Cargá tus medidas y te recomendamos tus prendas ideales</p>
+    <p>Cargá tus medidas y te recomendamos las prendas ideales para vos</p>
   </div>
   <div class="rec-form">
     <div class="field">
       <label>Tus medidas (en cm)</label>
+      <div class="field-hint">Si una prenda tuya estira, podés poner el rango: ej. 80-100</div>
       <div class="measures-grid">
-        <div class="m-wrap"><span>Busto / pecho</span><input type="number" id="m-busto" placeholder="ej: 90"></div>
-        <div class="m-wrap"><span>Cintura</span><input type="number" id="m-cintura" placeholder="ej: 70"></div>
-        <div class="m-wrap"><span>Cadera</span><input type="number" id="m-cadera" placeholder="ej: 95"></div>
-        <div class="m-wrap"><span>Tiro (opcional)</span><input type="number" id="m-tiro" placeholder="ej: 28"></div>
+        <div class="m-wrap"><span>Busto / pecho</span><input type="text" id="m-busto" placeholder="ej: 90 o 80-100"></div>
+        <div class="m-wrap"><span>Cintura</span><input type="text" id="m-cintura" placeholder="ej: 70 o 68-80"></div>
+        <div class="m-wrap"><span>Cadera</span><input type="text" id="m-cadera" placeholder="ej: 95 o 90-105"></div>
+        <div class="m-wrap"><span>Tiro (opcional)</span><input type="text" id="m-tiro" placeholder="ej: 28 o 26-30"></div>
       </div>
     </div>
     <div class="field">
@@ -141,12 +144,12 @@ section.visible{display:block;}
 const WA='5491100000000';
 
 const products=[
-  {id:1,cat:'arriba',name:'Blusa lino crudo',desc:'Blusa holgada de lino natural. Corte recto, cuello en V, manga 3/4.',price:8500,sizes:['S','M'],busto:88,estilo:['casual','boho'],fotos:['','',''],stock:1},
-  {id:2,cat:'arriba',name:'Camisa oversize rayada',desc:'Clásica camisa a rayas azul y blanco. Fit oversized.',price:9000,sizes:['M','L'],busto:96,estilo:['casual','vintage'],fotos:['',''],stock:1},
-  {id:3,cat:'arriba',name:'Top crochet beige',desc:'Top tejido artesanal. Cierre en la espalda.',price:7500,sizes:['XS','S'],busto:82,estilo:['boho','elegante'],fotos:[''],stock:0},
-  {id:4,cat:'abajo',name:'Pantalón palazzo negro',desc:'Pantalón ancho tiro alto, caída impecable.',price:12000,sizes:['S','M','L'],cintura:70,cadera:96,estilo:['elegante','casual'],fotos:['',''],stock:0},
-  {id:5,cat:'abajo',name:'Falda midi floral',desc:'Falda a media pierna con estampado floral vintage.',price:10500,sizes:['M','L','XL'],cintura:76,cadera:102,estilo:['boho','vintage'],fotos:['','',''],stock:1},
-  {id:6,cat:'abajo',name:'Pantalón cargo verde',desc:'Cargo de algodón con bolsillos laterales.',price:13500,sizes:['M','L'],cintura:74,cadera:98,estilo:['casual','sporty'],fotos:[''],stock:1},
+  {id:1,cat:'arriba',name:'Blusa lino crudo',desc:'Blusa holgada de lino natural. Corte recto, cuello en V, manga 3/4.',price:8500,sizes:['S','M'],busto:'88',cintura:'',cadera:'',estilo:['casual','boho'],fotos:['','',''],stock:1},
+  {id:2,cat:'arriba',name:'Camisa oversize rayada',desc:'Clásica camisa a rayas azul y blanco. Fit oversized.',price:9000,sizes:['M','L'],busto:'90-100',cintura:'',cadera:'',estilo:['casual','vintage'],fotos:['',''],stock:1},
+  {id:3,cat:'arriba',name:'Top crochet beige',desc:'Top tejido artesanal. Cierre en la espalda.',price:7500,sizes:['XS','S'],busto:'80-90',cintura:'',cadera:'',estilo:['boho','elegante'],fotos:[''],stock:0},
+  {id:4,cat:'abajo',name:'Pantalón palazzo negro',desc:'Pantalón ancho tiro alto, caída impecable.',price:12000,sizes:['S','M','L'],busto:'',cintura:'68-76',cadera:'96',estilo:['elegante','casual'],fotos:['',''],stock:0},
+  {id:5,cat:'abajo',name:'Falda midi floral',desc:'Falda a media pierna con estampado floral vintage.',price:10500,sizes:['M','L','XL'],busto:'',cintura:'70-85',cadera:'98-110',estilo:['boho','vintage'],fotos:['','',''],stock:1},
+  {id:6,cat:'abajo',name:'Pantalón cargo verde',desc:'Cargo de algodón con bolsillos laterales.',price:13500,sizes:['M','L'],busto:'',cintura:'74',cadera:'98',estilo:['casual','sporty'],fotos:[''],stock:1},
 ];
 
 const carouselState={};
@@ -157,21 +160,18 @@ function buildCarousel(p){
   const n=hasFotos?fotos.length:1;
   const id='c'+p.id;
   carouselState[id]={cur:0,total:n};
-
   const slides=hasFotos
-    ? fotos.map(f=>`<div class="carousel-slide"><img src="${f}" alt="${p.name}" onerror="this.parentNode.style.background='#f9f6f2';this.remove()"></div>`).join('')
-    : `<div class="carousel-slide" style="background:${p.cat==='arriba'?'#fdf0f5':'#f0f4fd'}">
+    ?fotos.map(f=>`<div class="carousel-slide"><img src="${f}" alt="${p.name}" onerror="this.parentNode.style.background='#f9f6f2';this.remove()"></div>`).join('')
+    :`<div class="carousel-slide" style="background:${p.cat==='arriba'?'#fdf0f5':'#f0f4fd'}">
         <span class="cat-pill ${p.cat==='abajo'?'abajo':''}">De ${p.cat==='arriba'?'arriba':'abajo'}</span>
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.2"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg>
         <span>foto próximamente</span>
        </div>`;
-
   const dots=n>1?`<div class="carousel-dots" id="dots${id}">${Array.from({length:n},(_,i)=>`<div class="dot${i===0?' active':''}" onclick="goTo('${id}',${i})"></div>`).join('')}</div>`:'';
   const btns=n>1?`<button class="carousel-btn prev" onclick="move('${id}',-1)">&#8249;</button><button class="carousel-btn next" onclick="move('${id}',1)">&#8250;</button>`:'';
   const contador=n>1?`<span class="foto-contador" id="cnt${id}">1 / ${n}</span>`:'';
   const vendidoOverlay=p.stock===0?`<div class="vendido-overlay"><span class="vendido-texto">Vendido</span></div>`:'';
-
-  return `<div class="carousel" id="${id}" data-pid="${p.id}">
+  return `<div class="carousel" id="${id}">
     <span class="stock-badge ${p.stock===1?'disponible':'vendido-badge'}">${p.stock===1?'Disponible':'Vendido'}</span>
     ${contador}
     <div class="carousel-track" id="track${id}">${slides}</div>
@@ -180,21 +180,19 @@ function buildCarousel(p){
 }
 
 function goTo(id,idx){
-  const s=carouselState[id];
-  if(!s)return;
+  const s=carouselState[id];if(!s)return;
   s.cur=(idx+s.total)%s.total;
   document.getElementById('track'+id).style.transform=`translateX(-${s.cur*100}%)`;
-  const dotsEl=document.getElementById('dots'+id);
-  if(dotsEl)dotsEl.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===s.cur));
+  const de=document.getElementById('dots'+id);
+  if(de)de.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===s.cur));
   const cnt=document.getElementById('cnt'+id);
   if(cnt)cnt.textContent=`${s.cur+1} / ${s.total}`;
 }
 function move(id,dir){goTo(id,carouselState[id].cur+dir);}
-
-function initSwipe(carouselEl,id){
+function initSwipe(el,id){
   let sx=null;
-  carouselEl.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
-  carouselEl.addEventListener('touchend',e=>{
+  el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+  el.addEventListener('touchend',e=>{
     if(sx===null)return;
     const dx=e.changedTouches[0].clientX-sx;
     if(Math.abs(dx)>40)move(id,dx<0?1:-1);
@@ -221,7 +219,6 @@ function renderGrid(f){
       </div>
     </div>`;
   }).join('');
-
   list.forEach(p=>{
     const id='c'+p.id;
     const el=document.getElementById(id);
@@ -243,6 +240,25 @@ function filter(cat,btn){
 function toggleChip(el){el.classList.toggle('sel');}
 function getChips(){return[...document.querySelectorAll('.chip.sel')].map(c=>c.textContent);}
 
+function describeMedida(label, val){
+  if(!val||val.trim()==='') return '';
+  if(val.includes('-')){
+    const [min,max]=val.split('-').map(v=>v.trim());
+    return `${label}: ${min}cm en plano, estira hasta ${max}cm (rango elástico: ${min}-${max}cm)`;
+  }
+  return `${label}: ${val}cm (medida fija, no estira)`;
+}
+
+function describePrendaMedida(label, val){
+  if(!val||val.toString().trim()==='') return '';
+  const s=val.toString().trim();
+  if(s.includes('-')){
+    const [min,max]=s.split('-').map(v=>v.trim());
+    return `${label} ${min}-${max}cm (elástica, entra entre ${min} y ${max}cm)`;
+  }
+  return `${label} ${s}cm (fija)`;
+}
+
 async function recomendar(){
   const btn=document.getElementById('rec-btn');
   const results=document.getElementById('results');
@@ -250,9 +266,50 @@ async function recomendar(){
   btn.innerHTML='<span class="spinner"></span>Buscando...';
   results.style.display='block';
   results.innerHTML='<h3>Un segundito</h3><p style="color:#bbb">Analizando tu perfil...</p>';
+
+  const mBusto=document.getElementById('m-busto').value.trim();
+  const mCintura=document.getElementById('m-cintura').value.trim();
+  const mCadera=document.getElementById('m-cadera').value.trim();
+  const mTiro=document.getElementById('m-tiro').value.trim();
+
+  const medidas=[
+    describeMedida('Busto',mBusto),
+    describeMedida('Cintura',mCintura),
+    describeMedida('Cadera',mCadera),
+    describeMedida('Tiro',mTiro),
+  ].filter(Boolean).join('\n');
+
   const disponibles=products.filter(p=>p.stock===1);
-  const catalog=disponibles.map(p=>`- ${p.name} (${p.cat==='arriba'?'arriba':'abajo'}): ${p.desc} Talles: ${p.sizes.join(',')} Precio: $${p.price}${p.busto?` Busto:${p.busto}cm`:''}${p.cintura?` Cintura:${p.cintura}cm`:''}${p.cadera?` Cadera:${p.cadera}cm`:''}`).join('\n');
-  const prompt=`Sos la asesora de "La Juliferia", moda circular en Buenos Aires. Recomendá 2-3 prendas disponibles del catálogo según el perfil.\nCATÁLOGO DISPONIBLE:\n${catalog}\nPERFIL:\nBusto:${document.getElementById('m-busto').value||'?'}cm Cintura:${document.getElementById('m-cintura').value||'?'}cm Cadera:${document.getElementById('m-cadera').value||'?'}cm Preferencias:${getChips().join(',')||'ninguna'}\nSé cálida, informal y entusiasta. Solo recomendá prendas del catálogo. Terminá invitando a consultar por WhatsApp.`;
+  const catalog=disponibles.map(p=>{
+    const medsPrenda=[
+      describePrendaMedida('busto',p.busto),
+      describePrendaMedida('cintura',p.cintura),
+      describePrendaMedida('cadera',p.cadera),
+    ].filter(Boolean).join(', ');
+    return `- ${p.name} (${p.cat==='arriba'?'parte de arriba':'parte de abajo'}): ${p.desc} | Talles: ${p.sizes.join(',')} | Precio: $${p.price}${medsPrenda?' | Medidas: '+medsPrenda:''}`;
+  }).join('\n');
+
+  const prompt=`Sos la asesora de moda de "La Juliferia", un emprendimiento de moda circular en Buenos Aires. Tu especialidad es ayudar a las clientas a encontrar prendas que les queden bien según sus medidas reales.
+
+REGLAS CLAVE PARA LAS MEDIDAS:
+- Cuando una medida de la clienta dice "80-100", significa que la prenda que usa mide 80cm en plano pero estira hasta 100cm. Es decir, le entra cualquier prenda cuya medida esté DENTRO de ese rango (entre 80 y 100cm).
+- Cuando una medida de la clienta es un número fijo (ej: "90cm"), buscá prendas con esa medida o hasta 5cm más.
+- Cuando una medida de la prenda dice "elástica X-Y", significa que esa prenda en particular estira entre X e Y cm. Chequeá si las medidas de la clienta caen dentro de ese rango.
+- Cuando una medida de la prenda es fija, la clienta debería tener esa medida o hasta 5cm menos (para que no quede ajustado).
+- Si una prenda no tiene medidas especificadas, recomendala igual basándote en el talle y el estilo.
+- Solo recomendá prendas disponibles del catálogo. No inventes prendas.
+
+CATÁLOGO DISPONIBLE:
+${catalog}
+
+MEDIDAS DE LA CLIENTA:
+${medidas||'No especificadas'}
+
+PREFERENCIAS:
+${getChips().join(', ')||'Ninguna especificada'}
+
+Recomendá 2 o 3 prendas explicando brevemente por qué le van a quedar bien, mencionando si la medida le cae dentro del rango. Usá un tono cálido, cercano y entusiasta. Terminá invitando a consultar por WhatsApp.`;
+
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
     const d=await r.json();
