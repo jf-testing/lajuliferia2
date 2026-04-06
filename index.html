@@ -16,19 +16,28 @@ section.visible{display:block;}
 .filter-row{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;}
 .filter-btn{background:#fff;border:2px solid #e8ddd4;border-radius:50px;padding:6px 18px;font-size:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;transition:all 0.2s;color:#999;}
 .filter-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;}
 .card{background:#fff;border-radius:16px;overflow:hidden;border:2px solid #f0e8e0;transition:transform 0.2s;position:relative;}
 .card:hover{transform:translateY(-3px);}
-.card.vendido{opacity:0.7;}
-.card-img{width:100%;height:200px;object-fit:cover;display:block;background:#f9f6f2;}
-.img-placeholder{width:100%;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#ccc;background:#f9f6f2;}
+.card.vendido{opacity:0.72;}
+.carousel{position:relative;height:220px;background:#f9f6f2;overflow:hidden;user-select:none;}
+.carousel-track{display:flex;height:100%;transition:transform 0.32s ease;}
+.carousel-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#ccc;}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.92);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#1a1a1a;z-index:4;line-height:1;}
+.carousel-btn.prev{left:8px;}
+.carousel-btn.next{right:8px;}
+.carousel-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:4;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,0.2);cursor:pointer;transition:background 0.2s;}
+.dot.active{background:#1a1a1a;}
+.foto-contador{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.42);color:#fff;font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;padding:3px 9px;border-radius:50px;z-index:4;}
+.stock-badge{position:absolute;top:10px;right:10px;font-family:'Nunito',sans-serif;font-weight:900;font-size:11px;padding:4px 12px;border-radius:50px;z-index:4;}
+.stock-badge.disponible{background:#d4edda;color:#1a6b3a;}
+.stock-badge.vendido-badge{background:#f8d7da;color:#7b1a1a;}
+.vendido-overlay{position:absolute;top:0;left:0;right:0;height:220px;background:rgba(255,255,255,0.45);display:flex;align-items:center;justify-content:center;z-index:3;}
+.vendido-texto{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;color:#7b1a1a;background:#f8d7da;padding:8px 22px;border-radius:50px;transform:rotate(-5deg);}
 .cat-pill{display:inline-block;background:#f4a0be;color:#fff;font-size:10px;font-family:'Nunito',sans-serif;font-weight:700;padding:3px 10px;border-radius:50px;}
 .cat-pill.abajo{background:#a0b8e4;}
-.stock-badge{position:absolute;top:10px;right:10px;font-family:'Nunito',sans-serif;font-weight:900;font-size:11px;padding:4px 12px;border-radius:50px;letter-spacing:0.5px;}
-.stock-badge.disponible{background:#d4edda;color:#1a6b3a;}
-.stock-badge.vendido{background:#f8d7da;color:#7b1a1a;}
-.vendido-overlay{position:absolute;top:0;left:0;right:0;height:200px;background:rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;}
-.vendido-texto{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;color:#7b1a1a;background:#f8d7da;padding:8px 20px;border-radius:50px;letter-spacing:1px;transform:rotate(-5deg);}
 .card-body{padding:1rem;}
 .card-name{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;margin-bottom:4px;}
 .card-desc{font-size:12px;color:#b090a0;line-height:1.5;margin-bottom:8px;}
@@ -131,54 +140,93 @@ section.visible{display:block;}
 <script>
 const WA='5491100000000';
 
-// =============================================
-// ACÁ VAN TUS PRENDAS - editá estos datos
-// o en el futuro esto se leerá del Google Sheet
-// =============================================
 const products=[
-  {id:1,cat:'arriba',name:'Blusa lino crudo',desc:'Blusa holgada de lino natural. Corte recto, cuello en V, manga 3/4.',price:'$8.500',sizes:['S','M'],busto:88,estilo:['casual','boho'],foto:'',stock:1},
-  {id:2,cat:'arriba',name:'Camisa oversize rayada',desc:'Clásica camisa a rayas azul y blanco. Fit oversized.',price:'$9.000',sizes:['M','L'],busto:96,estilo:['casual','vintage'],foto:'',stock:1},
-  {id:3,cat:'arriba',name:'Top crochet beige',desc:'Top tejido artesanal. Cierre en la espalda.',price:'$7.500',sizes:['XS','S'],busto:82,estilo:['boho','elegante'],foto:'',stock:0},
-  {id:4,cat:'abajo',name:'Pantalón palazzo negro',desc:'Pantalón ancho tiro alto, caída impecable.',price:'$12.000',sizes:['S','M','L'],cintura:70,cadera:96,estilo:['elegante','casual'],foto:'',stock:0},
-  {id:5,cat:'abajo',name:'Falda midi floral',desc:'Falda a media pierna con estampado floral vintage.',price:'$10.500',sizes:['M','L','XL'],cintura:76,cadera:102,estilo:['boho','vintage'],foto:'',stock:1},
-  {id:6,cat:'abajo',name:'Pantalón cargo verde',desc:'Cargo de algodón con bolsillos laterales.',price:'$13.500',sizes:['M','L'],cintura:74,cadera:98,estilo:['casual','sporty'],foto:'',stock:1},
+  {id:1,cat:'arriba',name:'Blusa lino crudo',desc:'Blusa holgada de lino natural. Corte recto, cuello en V, manga 3/4.',price:8500,sizes:['S','M'],busto:88,estilo:['casual','boho'],fotos:['','',''],stock:1},
+  {id:2,cat:'arriba',name:'Camisa oversize rayada',desc:'Clásica camisa a rayas azul y blanco. Fit oversized.',price:9000,sizes:['M','L'],busto:96,estilo:['casual','vintage'],fotos:['',''],stock:1},
+  {id:3,cat:'arriba',name:'Top crochet beige',desc:'Top tejido artesanal. Cierre en la espalda.',price:7500,sizes:['XS','S'],busto:82,estilo:['boho','elegante'],fotos:[''],stock:0},
+  {id:4,cat:'abajo',name:'Pantalón palazzo negro',desc:'Pantalón ancho tiro alto, caída impecable.',price:12000,sizes:['S','M','L'],cintura:70,cadera:96,estilo:['elegante','casual'],fotos:['',''],stock:0},
+  {id:5,cat:'abajo',name:'Falda midi floral',desc:'Falda a media pierna con estampado floral vintage.',price:10500,sizes:['M','L','XL'],cintura:76,cadera:102,estilo:['boho','vintage'],fotos:['','',''],stock:1},
+  {id:6,cat:'abajo',name:'Pantalón cargo verde',desc:'Cargo de algodón con bolsillos laterales.',price:13500,sizes:['M','L'],cintura:74,cadera:98,estilo:['casual','sporty'],fotos:[''],stock:1},
 ];
 
-function cardImg(p){
-  if(p.foto) return `<img class="card-img" src="${p.foto}" alt="${p.name}" onerror="this.parentNode.innerHTML=placeholderHtml('${p.cat}')">`;
-  return `<div class="img-placeholder">
-    <span class="cat-pill ${p.cat==='abajo'?'abajo':''}">De ${p.cat==='arriba'?'arriba':'abajo'}</span>
-    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.2"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg>
-    <span>foto próximamente</span>
-    ${p.stock===0?'<div class="vendido-overlay"><span class="vendido-texto">Vendido</span></div>':''}
+const carouselState={};
+
+function buildCarousel(p){
+  const fotos=p.fotos.filter(f=>f.trim()!=='');
+  const hasFotos=fotos.length>0;
+  const n=hasFotos?fotos.length:1;
+  const id='c'+p.id;
+  carouselState[id]={cur:0,total:n};
+
+  const slides=hasFotos
+    ? fotos.map(f=>`<div class="carousel-slide"><img src="${f}" alt="${p.name}" onerror="this.parentNode.style.background='#f9f6f2';this.remove()"></div>`).join('')
+    : `<div class="carousel-slide" style="background:${p.cat==='arriba'?'#fdf0f5':'#f0f4fd'}">
+        <span class="cat-pill ${p.cat==='abajo'?'abajo':''}">De ${p.cat==='arriba'?'arriba':'abajo'}</span>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.2"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg>
+        <span>foto próximamente</span>
+       </div>`;
+
+  const dots=n>1?`<div class="carousel-dots" id="dots${id}">${Array.from({length:n},(_,i)=>`<div class="dot${i===0?' active':''}" onclick="goTo('${id}',${i})"></div>`).join('')}</div>`:'';
+  const btns=n>1?`<button class="carousel-btn prev" onclick="move('${id}',-1)">&#8249;</button><button class="carousel-btn next" onclick="move('${id}',1)">&#8250;</button>`:'';
+  const contador=n>1?`<span class="foto-contador" id="cnt${id}">1 / ${n}</span>`:'';
+  const vendidoOverlay=p.stock===0?`<div class="vendido-overlay"><span class="vendido-texto">Vendido</span></div>`:'';
+
+  return `<div class="carousel" id="${id}" data-pid="${p.id}">
+    <span class="stock-badge ${p.stock===1?'disponible':'vendido-badge'}">${p.stock===1?'Disponible':'Vendido'}</span>
+    ${contador}
+    <div class="carousel-track" id="track${id}">${slides}</div>
+    ${btns}${dots}${vendidoOverlay}
   </div>`;
 }
 
-function cardBoton(p){
-  if(p.stock===1){
-    return `<a class="wa-btn" href="https://wa.me/${WA}?text=Hola!%20Me%20interesa:%20${encodeURIComponent(p.name)}" target="_blank">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-      Consultar por WhatsApp
-    </a>`;
-  } else {
-    return `<div class="vendido-btn">Ya fue · Vendido</div>`;
-  }
+function goTo(id,idx){
+  const s=carouselState[id];
+  if(!s)return;
+  s.cur=(idx+s.total)%s.total;
+  document.getElementById('track'+id).style.transform=`translateX(-${s.cur*100}%)`;
+  const dotsEl=document.getElementById('dots'+id);
+  if(dotsEl)dotsEl.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===s.cur));
+  const cnt=document.getElementById('cnt'+id);
+  if(cnt)cnt.textContent=`${s.cur+1} / ${s.total}`;
+}
+function move(id,dir){goTo(id,carouselState[id].cur+dir);}
+
+function initSwipe(carouselEl,id){
+  let sx=null;
+  carouselEl.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+  carouselEl.addEventListener('touchend',e=>{
+    if(sx===null)return;
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>40)move(id,dx<0?1:-1);
+    sx=null;
+  },{passive:true});
 }
 
 function renderGrid(f){
   const list=f==='todas'?products:products.filter(p=>p.cat===f);
-  document.getElementById('product-grid').innerHTML=list.map(p=>`
-    <div class="card${p.stock===0?' vendido':''}">
-      <span class="stock-badge ${p.stock===1?'disponible':'vendido'}">${p.stock===1?'Disponible':'Vendido'}</span>
-      ${cardImg(p)}
+  const grid=document.getElementById('product-grid');
+  grid.innerHTML=list.map(p=>{
+    const precio='$'+p.price.toLocaleString('es-AR');
+    const boton=p.stock===1
+      ?`<a class="wa-btn" href="https://wa.me/${WA}?text=Hola!%20Me%20interesa:%20${encodeURIComponent(p.name)}" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Consultar por WhatsApp</a>`
+      :`<div class="vendido-btn">Ya fue · Vendido</div>`;
+    return `<div class="card${p.stock===0?' vendido':''}">
+      ${buildCarousel(p)}
       <div class="card-body">
         <div class="card-name">${p.name}</div>
         <div class="card-desc">${p.desc}</div>
         <div class="sizes">${p.sizes.map(s=>`<span class="size-tag">${s}</span>`).join('')}</div>
-        <div class="card-price">$${Number(p.price.replace(/[^0-9]/g,'')).toLocaleString('es-AR')}</div>
-        ${cardBoton(p)}
+        <div class="card-price">${precio}</div>
+        ${boton}
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
+  list.forEach(p=>{
+    const id='c'+p.id;
+    const el=document.getElementById(id);
+    if(el&&carouselState[id]&&carouselState[id].total>1)initSwipe(el,id);
+  });
 }
 
 function show(id,btn){
@@ -203,7 +251,7 @@ async function recomendar(){
   results.style.display='block';
   results.innerHTML='<h3>Un segundito</h3><p style="color:#bbb">Analizando tu perfil...</p>';
   const disponibles=products.filter(p=>p.stock===1);
-  const catalog=disponibles.map(p=>`- ${p.name} (${p.cat==='arriba'?'arriba':'abajo'}): ${p.desc} Talles: ${p.sizes.join(',')} Precio: ${p.price}${p.busto?` Busto:${p.busto}cm`:''}${p.cintura?` Cintura:${p.cintura}cm`:''}${p.cadera?` Cadera:${p.cadera}cm`:''}`).join('\n');
+  const catalog=disponibles.map(p=>`- ${p.name} (${p.cat==='arriba'?'arriba':'abajo'}): ${p.desc} Talles: ${p.sizes.join(',')} Precio: $${p.price}${p.busto?` Busto:${p.busto}cm`:''}${p.cintura?` Cintura:${p.cintura}cm`:''}${p.cadera?` Cadera:${p.cadera}cm`:''}`).join('\n');
   const prompt=`Sos la asesora de "La Juliferia", moda circular en Buenos Aires. Recomendá 2-3 prendas disponibles del catálogo según el perfil.\nCATÁLOGO DISPONIBLE:\n${catalog}\nPERFIL:\nBusto:${document.getElementById('m-busto').value||'?'}cm Cintura:${document.getElementById('m-cintura').value||'?'}cm Cadera:${document.getElementById('m-cadera').value||'?'}cm Preferencias:${getChips().join(',')||'ninguna'}\nSé cálida, informal y entusiasta. Solo recomendá prendas del catálogo. Terminá invitando a consultar por WhatsApp.`;
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
